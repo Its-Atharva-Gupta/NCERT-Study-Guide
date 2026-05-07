@@ -8,3 +8,9 @@ wheels/
 
 # Virtual environments
 .venv
+vector_db/
+input.txt
+.agents/
+.codex/
+.uv_cache/
+pdfs/
