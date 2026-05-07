@@ -1,0 +1,10 @@
+chromadb
+langchain
+langchain-community
+langchain-core
+langchain-groq
+langchain-text-splitters
+langchain-classic
+pypdf
+sentence-transformers
+streamlit

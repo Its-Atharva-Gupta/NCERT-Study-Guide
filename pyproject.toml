@@ -1,0 +1,21 @@
+[project]
+name = "ncert-rag"
+version = "0.1.0"
+description = "Local NCERT PDF RAG using Chroma + Ollama"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "chromadb>=1.5.0",
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.13",
+    "langchain-core>=0.1.0",
+    "langchain-groq>=0.3.0",
+    "langchain-text-splitters>=0.0.1",
+    "langchain-classic>=1.0.0",
+    "pypdf>=6.7.0",
+    "sentence-transformers>=5.2.2",
+    "streamlit>=1.54.0",
+]
+
+[project.scripts]
+ncert-rag = "ncert_rag.cli:main"
