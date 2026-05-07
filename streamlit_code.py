@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 
 from ncert_rag.config import Settings
@@ -5,9 +6,18 @@ from ncert_rag.rag import answer_question, create_qa_chain, load_vector_db
 
 st.set_page_config(page_title="NCERT RAG Q&A", page_icon="📚")
 
+# --- API key (user-provided) ---
+with st.sidebar:
+    st.header("Settings")
+    groq_api_key = st.text_input("Groq API key", type="password", help="Stored only in this session.")
+    st.caption("Tip: You can also set `GROQ_API_KEY` in your environment.")
+
+if groq_api_key:
+    os.environ["GROQ_API_KEY"] = groq_api_key
+
 # Use @st.cache_resource so the DB and LLM only load once, saving memory/time
 @st.cache_resource
-def initialize_rag():
+def initialize_rag(_groq_api_key: str):
     settings = Settings()
     vector_db = load_vector_db(settings)
     return create_qa_chain(vector_db, settings)
@@ -17,7 +27,10 @@ st.title("🎓 NCERT Teacher Assistant")
 st.markdown("Chat with your NCERT corpus (RAG).")
 
 try:
-    qa_chain = initialize_rag()
+    if not (groq_api_key or os.getenv("GROQ_API_KEY")):
+        st.info("Enter your Groq API key in the sidebar to start chatting.")
+        st.stop()
+    qa_chain = initialize_rag(groq_api_key or os.getenv("GROQ_API_KEY", ""))
     st.success("Database Loaded!")
 except Exception as e:
     st.error(f"Failed to load database: {e}")
